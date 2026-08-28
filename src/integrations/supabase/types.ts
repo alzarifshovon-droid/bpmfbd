@@ -14,16 +14,277 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          id: string
+          image_url: string | null
+          registration_url: string | null
+          title: string
+          venue: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          id?: string
+          image_url?: string | null
+          registration_url?: string | null
+          title: string
+          venue?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          id?: string
+          image_url?: string | null
+          registration_url?: string | null
+          title?: string
+          venue?: string | null
+        }
+        Relationships: []
+      }
+      fees: {
+        Row: {
+          amount: number
+          created_at: string
+          due_date: string | null
+          id: string
+          paid_at: string | null
+          status: Database["public"]["Enums"]["fee_status"]
+          title: string
+          transaction_ref: string | null
+          user_id: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: Database["public"]["Enums"]["fee_status"]
+          title?: string
+          transaction_ref?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: Database["public"]["Enums"]["fee_status"]
+          title?: string
+          transaction_ref?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      gallery: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          image_url: string
+          title: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url: string
+          title: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          image_url?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      jobs: {
+        Row: {
+          apply_url: string | null
+          company: string | null
+          created_at: string
+          deadline: string | null
+          description: string | null
+          id: string
+          job_type: string | null
+          location: string | null
+          title: string
+        }
+        Insert: {
+          apply_url?: string | null
+          company?: string | null
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          job_type?: string | null
+          location?: string | null
+          title: string
+        }
+        Update: {
+          apply_url?: string | null
+          company?: string | null
+          created_at?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          job_type?: string | null
+          location?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          blood_group: string | null
+          created_at: string
+          department: string | null
+          designation: string | null
+          email: string
+          employee_code: string | null
+          full_name: string
+          grade: string | null
+          id: string
+          is_paid: boolean
+          line_of_business: string | null
+          location: string | null
+          mobile_no: string | null
+          organization: string | null
+          photo_url: string | null
+          reporting_manager_code: string | null
+          status: Database["public"]["Enums"]["membership_status"]
+          updated_at: string
+        }
+        Insert: {
+          blood_group?: string | null
+          created_at?: string
+          department?: string | null
+          designation?: string | null
+          email?: string
+          employee_code?: string | null
+          full_name?: string
+          grade?: string | null
+          id: string
+          is_paid?: boolean
+          line_of_business?: string | null
+          location?: string | null
+          mobile_no?: string | null
+          organization?: string | null
+          photo_url?: string | null
+          reporting_manager_code?: string | null
+          status?: Database["public"]["Enums"]["membership_status"]
+          updated_at?: string
+        }
+        Update: {
+          blood_group?: string | null
+          created_at?: string
+          department?: string | null
+          designation?: string | null
+          email?: string
+          employee_code?: string | null
+          full_name?: string
+          grade?: string | null
+          id?: string
+          is_paid?: boolean
+          line_of_business?: string | null
+          location?: string | null
+          mobile_no?: string | null
+          organization?: string | null
+          photo_url?: string | null
+          reporting_manager_code?: string | null
+          status?: Database["public"]["Enums"]["membership_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      training_logs: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration_hours: number | null
+          id: string
+          location: string | null
+          resource_url: string | null
+          title: string
+          trainer: string | null
+          training_date: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration_hours?: number | null
+          id?: string
+          location?: string | null
+          resource_url?: string | null
+          title: string
+          trainer?: string | null
+          training_date?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration_hours?: number | null
+          id?: string
+          location?: string | null
+          resource_url?: string | null
+          title?: string
+          trainer?: string | null
+          training_date?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_paid_member: { Args: { _user_id: string }; Returns: boolean }
+      submit_fee_payment: {
+        Args: { _fee_id: string; _ref: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "member"
+      fee_status: "unpaid" | "pending_verification" | "paid"
+      membership_status: "pending" | "active" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +411,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "member"],
+      fee_status: ["unpaid", "pending_verification", "paid"],
+      membership_status: ["pending", "active", "rejected"],
+    },
   },
 } as const
