@@ -33,7 +33,7 @@ export const Route = createFileRoute("/register")({
       },
     ],
   }),
-  component: Register;
+  component: Register,
 });
 
 const schema = z.object({
