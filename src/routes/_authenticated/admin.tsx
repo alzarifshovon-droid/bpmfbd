@@ -454,7 +454,8 @@ function ContentTab({
         if (!raw) continue;
         record[f.name] = f.type === "number" ? Number(raw) : raw;
       }
-      const { error } = await supabase.from(table).insert(record);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await supabase.from(table).insert(record as any);
       if (error) throw error;
     },
     onSuccess: () => {
