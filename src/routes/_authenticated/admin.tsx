@@ -486,19 +486,19 @@ function ContentTab({
           <ul className="mt-4 space-y-3">
             {(rows.data ?? []).map((r) => (
               <li
-                key={String(r.id)}
+                key={String(r["id"])}
                 className="flex items-center justify-between gap-3 rounded-lg border p-3"
               >
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-medium">{String(r.title ?? "")}</p>
+                  <p className="truncate text-sm font-medium">{String(r["title"] ?? "")}</p>
                   <p className="text-xs text-muted-foreground">
-                    {String(r.created_at ?? "").slice(0, 10)}
+                    {String(r["created_at"] ?? "").slice(0, 10)}
                   </p>
                 </div>
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => remove.mutate(String(r.id))}
+                  onClick={() => remove.mutate(String(r["id"]))}
                   disabled={remove.isPending}
                 >
                   <Trash2 />

@@ -16,7 +16,10 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as MedicineInformationRouteImport } from './routes/medicine-information'
 import { Route as MembersRouteImport } from './routes/members'
+import { Route as PathologicalTestsRouteImport } from './routes/pathological-tests'
+import { Route as QuizGamesRouteImport } from './routes/quiz-games'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -59,9 +62,24 @@ const JobsRoute = JobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MedicineInformationRoute = MedicineInformationRouteImport.update({
+  id: '/medicine-information',
+  path: '/medicine-information',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MembersRoute = MembersRouteImport.update({
   id: '/members',
   path: '/members',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PathologicalTestsRoute = PathologicalTestsRouteImport.update({
+  id: '/pathological-tests',
+  path: '/pathological-tests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizGamesRoute = QuizGamesRouteImport.update({
+  id: '/quiz-games',
+  path: '/quiz-games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -108,7 +126,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/jobs': typeof JobsRoute
+  '/medicine-information': typeof MedicineInformationRoute
   '/members': typeof MembersRoute
+  '/pathological-tests': typeof PathologicalTestsRoute
+  '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -124,7 +145,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/jobs': typeof JobsRoute
+  '/medicine-information': typeof MedicineInformationRoute
   '/members': typeof MembersRoute
+  '/pathological-tests': typeof PathologicalTestsRoute
+  '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -142,7 +166,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/gallery': typeof GalleryRoute
   '/jobs': typeof JobsRoute
+  '/medicine-information': typeof MedicineInformationRoute
   '/members': typeof MembersRoute
+  '/pathological-tests': typeof PathologicalTestsRoute
+  '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -160,7 +187,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/jobs'
+    | '/medicine-information'
     | '/members'
+    | '/pathological-tests'
+    | '/quiz-games'
     | '/register'
     | '/reset-password'
     | '/admin'
@@ -176,7 +206,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/jobs'
+    | '/medicine-information'
     | '/members'
+    | '/pathological-tests'
+    | '/quiz-games'
     | '/register'
     | '/reset-password'
     | '/admin'
@@ -193,7 +226,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/gallery'
     | '/jobs'
+    | '/medicine-information'
     | '/members'
+    | '/pathological-tests'
+    | '/quiz-games'
     | '/register'
     | '/reset-password'
     | '/_authenticated/admin'
@@ -211,7 +247,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   GalleryRoute: typeof GalleryRoute
   JobsRoute: typeof JobsRoute
+  MedicineInformationRoute: typeof MedicineInformationRoute
   MembersRoute: typeof MembersRoute
+  PathologicalTestsRoute: typeof PathologicalTestsRoute
+  QuizGamesRoute: typeof QuizGamesRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
 }
@@ -267,11 +306,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/medicine-information': {
+      id: '/medicine-information'
+      path: '/medicine-information'
+      fullPath: '/medicine-information'
+      preLoaderRoute: typeof MedicineInformationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/members': {
       id: '/members'
       path: '/members'
       fullPath: '/members'
       preLoaderRoute: typeof MembersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pathological-tests': {
+      id: '/pathological-tests'
+      path: '/pathological-tests'
+      fullPath: '/pathological-tests'
+      preLoaderRoute: typeof PathologicalTestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz-games': {
+      id: '/quiz-games'
+      path: '/quiz-games'
+      fullPath: '/quiz-games'
+      preLoaderRoute: typeof QuizGamesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -353,7 +413,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   GalleryRoute: GalleryRoute,
   JobsRoute: JobsRoute,
+  MedicineInformationRoute: MedicineInformationRoute,
   MembersRoute: MembersRoute,
+  PathologicalTestsRoute: PathologicalTestsRoute,
+  QuizGamesRoute: QuizGamesRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
 }

@@ -16,6 +16,9 @@ const publicNav: NavItem[] = [
   { label: "Job Corner", to: "/jobs" },
   { label: "Gallery", to: "/gallery" },
   { label: "Contacts", to: "/contact" },
+  { label: "Quiz Games", to: "/quiz-games" },
+  { label: "Pathological Tests", to: "/pathological-tests" },
+  { label: "Medicine Info", to: "/medicine-information" },
 ];
 
 const memberNav: NavItem[] = [
