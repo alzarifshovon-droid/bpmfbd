@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Menu, X, Search, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
-import logo from "@/assets/bpmf-logo.png";
+import logoAsset from "@/assets/bpmf-logo-new.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -47,7 +47,7 @@ export function SiteHeader() {
       <div className="bg-background">
         <div className="container-page flex items-center justify-between gap-4 py-3">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="BPMF emblem" width={56} height={56} className="h-12 w-12" />
+            <img src={logoAsset.url} alt="BPMF emblem" width={56} height={56} className="h-12 w-12" />
             <span className="font-display text-base leading-tight font-bold sm:text-xl">
               Bangladesh Pharma <span className="text-primary">Microbiologists</span> Foundation
             </span>
