@@ -22,6 +22,8 @@ import { Route as PathologicalTestsRouteImport } from './routes/pathological-tes
 import { Route as QuizGamesRouteImport } from './routes/quiz-games'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TeamLoginRouteImport } from './routes/team-login'
+import { Route as AuthenticatedCertificateRouteImport } from './routes/_authenticated/certificate'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedFeesRouteImport } from './routes/_authenticated/fees'
 import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
@@ -91,6 +93,17 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamLoginRoute = TeamLoginRouteImport.update({
+  id: '/team-login',
+  path: '/team-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCertificateRoute =
+  AuthenticatedCertificateRouteImport.update({
+    id: '/certificate',
+    path: '/certificate',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -126,6 +139,8 @@ export interface FileRoutesByFullPath {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/team-login': typeof TeamLoginRoute
+  '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
   '/team': typeof AuthenticatedTeamRoute
@@ -144,6 +159,8 @@ export interface FileRoutesByTo {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/team-login': typeof TeamLoginRoute
+  '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
   '/team': typeof AuthenticatedTeamRoute
@@ -164,6 +181,8 @@ export interface FileRoutesById {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/team-login': typeof TeamLoginRoute
+  '/_authenticated/certificate': typeof AuthenticatedCertificateRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
   '/_authenticated/fees': typeof AuthenticatedFeesRoute
   '/_authenticated/team': typeof AuthenticatedTeamRoute
@@ -184,6 +203,8 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/team-login'
+    | '/certificate'
     | '/events'
     | '/fees'
     | '/team'
@@ -202,6 +223,8 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/team-login'
+    | '/certificate'
     | '/events'
     | '/fees'
     | '/team'
@@ -221,6 +244,8 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/team-login'
+    | '/_authenticated/certificate'
     | '/_authenticated/events'
     | '/_authenticated/fees'
     | '/_authenticated/team'
@@ -241,6 +266,7 @@ export interface RootRouteChildren {
   QuizGamesRoute: typeof QuizGamesRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TeamLoginRoute: typeof TeamLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -336,6 +362,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/team-login': {
+      id: '/team-login'
+      path: '/team-login'
+      fullPath: '/team-login'
+      preLoaderRoute: typeof TeamLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/certificate': {
+      id: '/_authenticated/certificate'
+      path: '/certificate'
+      fullPath: '/certificate'
+      preLoaderRoute: typeof AuthenticatedCertificateRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/events': {
       id: '/_authenticated/events'
       path: '/events'
@@ -368,6 +408,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCertificateRoute: typeof AuthenticatedCertificateRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
   AuthenticatedFeesRoute: typeof AuthenticatedFeesRoute
   AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
@@ -375,6 +416,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCertificateRoute: AuthenticatedCertificateRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
   AuthenticatedFeesRoute: AuthenticatedFeesRoute,
   AuthenticatedTeamRoute: AuthenticatedTeamRoute,
@@ -398,6 +440,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuizGamesRoute: QuizGamesRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TeamLoginRoute: TeamLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
