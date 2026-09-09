@@ -8,8 +8,8 @@ export function SiteFooter() {
       <div className="container-page grid gap-10 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <img
-              src={logo}
+<img
+              src={logoAsset.url}
               alt="BPMF emblem"
               width={48}
               height={48}
