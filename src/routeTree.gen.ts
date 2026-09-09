@@ -22,10 +22,11 @@ import { Route as PathologicalTestsRouteImport } from './routes/pathological-tes
 import { Route as QuizGamesRouteImport } from './routes/quiz-games'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as TeamLoginRouteImport } from './routes/team-login'
+import { Route as AuthenticatedCertificateRouteImport } from './routes/_authenticated/certificate'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedFeesRouteImport } from './routes/_authenticated/fees'
+import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
 import { Route as AuthenticatedTrainingLogsRouteImport } from './routes/_authenticated/training-logs'
 
 const IndexRoute = IndexRouteImport.update({
@@ -92,16 +93,17 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
+const TeamLoginRoute = TeamLoginRouteImport.update({
+  id: '/team-login',
+  path: '/team-login',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedCertificateRoute =
+  AuthenticatedCertificateRouteImport.update({
+    id: '/certificate',
+    path: '/certificate',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -110,6 +112,11 @@ const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
 const AuthenticatedFeesRoute = AuthenticatedFeesRouteImport.update({
   id: '/fees',
   path: '/fees',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeamRoute = AuthenticatedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTrainingLogsRoute =
@@ -132,10 +139,11 @@ export interface FileRoutesByFullPath {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/team-login': typeof TeamLoginRoute
+  '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
+  '/team': typeof AuthenticatedTeamRoute
   '/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRoutesByTo {
@@ -151,10 +159,11 @@ export interface FileRoutesByTo {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/team-login': typeof TeamLoginRoute
+  '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
+  '/team': typeof AuthenticatedTeamRoute
   '/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRoutesById {
@@ -172,10 +181,11 @@ export interface FileRoutesById {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/team-login': typeof TeamLoginRoute
+  '/_authenticated/certificate': typeof AuthenticatedCertificateRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
   '/_authenticated/fees': typeof AuthenticatedFeesRoute
+  '/_authenticated/team': typeof AuthenticatedTeamRoute
   '/_authenticated/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRouteTypes {
@@ -193,10 +203,11 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/admin'
-    | '/dashboard'
+    | '/team-login'
+    | '/certificate'
     | '/events'
     | '/fees'
+    | '/team'
     | '/training-logs'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -212,10 +223,11 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/admin'
-    | '/dashboard'
+    | '/team-login'
+    | '/certificate'
     | '/events'
     | '/fees'
+    | '/team'
     | '/training-logs'
   id:
     | '__root__'
@@ -232,10 +244,11 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/_authenticated/admin'
-    | '/_authenticated/dashboard'
+    | '/team-login'
+    | '/_authenticated/certificate'
     | '/_authenticated/events'
     | '/_authenticated/fees'
+    | '/_authenticated/team'
     | '/_authenticated/training-logs'
   fileRoutesById: FileRoutesById
 }
@@ -253,6 +266,7 @@ export interface RootRouteChildren {
   QuizGamesRoute: typeof QuizGamesRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TeamLoginRoute: typeof TeamLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -348,18 +362,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/team-login': {
+      id: '/team-login'
+      path: '/team-login'
+      fullPath: '/team-login'
+      preLoaderRoute: typeof TeamLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+    '/_authenticated/certificate': {
+      id: '/_authenticated/certificate'
+      path: '/certificate'
+      fullPath: '/certificate'
+      preLoaderRoute: typeof AuthenticatedCertificateRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/events': {
@@ -376,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFeesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/team': {
+      id: '/_authenticated/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AuthenticatedTeamRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/training-logs': {
       id: '/_authenticated/training-logs'
       path: '/training-logs'
@@ -387,18 +408,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedCertificateRoute: typeof AuthenticatedCertificateRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
   AuthenticatedFeesRoute: typeof AuthenticatedFeesRoute
+  AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
   AuthenticatedTrainingLogsRoute: typeof AuthenticatedTrainingLogsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedCertificateRoute: AuthenticatedCertificateRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
   AuthenticatedFeesRoute: AuthenticatedFeesRoute,
+  AuthenticatedTeamRoute: AuthenticatedTeamRoute,
   AuthenticatedTrainingLogsRoute: AuthenticatedTrainingLogsRoute,
 }
 
@@ -419,6 +440,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuizGamesRoute: QuizGamesRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TeamLoginRoute: TeamLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

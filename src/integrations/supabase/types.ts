@@ -146,7 +146,10 @@ export type Database = {
       profiles: {
         Row: {
           blood_group: string | null
+          certificate_issued_at: string | null
+          certificate_no: string | null
           created_at: string
+          date_of_birth: string | null
           department: string | null
           designation: string | null
           email: string
@@ -166,7 +169,10 @@ export type Database = {
         }
         Insert: {
           blood_group?: string | null
+          certificate_issued_at?: string | null
+          certificate_no?: string | null
           created_at?: string
+          date_of_birth?: string | null
           department?: string | null
           designation?: string | null
           email?: string
@@ -186,7 +192,10 @@ export type Database = {
         }
         Update: {
           blood_group?: string | null
+          certificate_issued_at?: string | null
+          certificate_no?: string | null
           created_at?: string
+          date_of_birth?: string | null
           department?: string | null
           designation?: string | null
           email?: string
@@ -203,6 +212,86 @@ export type Database = {
           reporting_manager_code?: string | null
           status?: Database["public"]["Enums"]["membership_status"]
           updated_at?: string
+        }
+        Relationships: []
+      }
+      quiz_locks: {
+        Row: {
+          locked_at: string
+          question_id: string | null
+          user_id: string
+          wrong_count: number
+        }
+        Insert: {
+          locked_at?: string
+          question_id?: string | null
+          user_id: string
+          wrong_count?: number
+        }
+        Update: {
+          locked_at?: string
+          question_id?: string | null
+          user_id?: string
+          wrong_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_locks_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          answer_index: number
+          created_at: string
+          explanation: string | null
+          id: string
+          options: string[]
+          question: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          answer_index?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          options: string[]
+          question: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          answer_index?: number
+          created_at?: string
+          explanation?: string | null
+          id?: string
+          options?: string[]
+          question?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
         }
         Relationships: []
       }
@@ -276,9 +365,19 @@ export type Database = {
         Returns: boolean
       }
       is_paid_member: { Args: { _user_id: string }; Returns: boolean }
+      lock_my_quiz: { Args: { _question_id: string }; Returns: undefined }
+      reset_quiz_lock: { Args: { _user_id: string }; Returns: undefined }
       submit_fee_payment: {
         Args: { _fee_id: string; _ref: string }
         Returns: undefined
+      }
+      todays_birthdays: {
+        Args: never
+        Returns: {
+          designation: string
+          full_name: string
+          organization: string
+        }[]
       }
     }
     Enums: {
