@@ -2,7 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Menu, X, Search, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
-import logo from "@/assets/bpmf-logo.png";
+import logoAsset from "@/assets/bpmf-logo-new.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
-import logo from "@/assets/bpmf-logo.png";
+import logoAsset from "@/assets/bpmf-logo-new.png.asset.json";
 
 export function SiteFooter() {
   return (
