@@ -22,10 +22,9 @@ import { Route as PathologicalTestsRouteImport } from './routes/pathological-tes
 import { Route as QuizGamesRouteImport } from './routes/quiz-games'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
-import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedFeesRouteImport } from './routes/_authenticated/fees'
+import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
 import { Route as AuthenticatedTrainingLogsRouteImport } from './routes/_authenticated/training-logs'
 
 const IndexRoute = IndexRouteImport.update({
@@ -92,16 +91,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -110,6 +99,11 @@ const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
 const AuthenticatedFeesRoute = AuthenticatedFeesRouteImport.update({
   id: '/fees',
   path: '/fees',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeamRoute = AuthenticatedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTrainingLogsRoute =
@@ -132,10 +126,9 @@ export interface FileRoutesByFullPath {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
+  '/team': typeof AuthenticatedTeamRoute
   '/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRoutesByTo {
@@ -151,10 +144,9 @@ export interface FileRoutesByTo {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
-  '/dashboard': typeof AuthenticatedDashboardRoute
   '/events': typeof AuthenticatedEventsRoute
   '/fees': typeof AuthenticatedFeesRoute
+  '/team': typeof AuthenticatedTeamRoute
   '/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRoutesById {
@@ -172,10 +164,9 @@ export interface FileRoutesById {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
-  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
   '/_authenticated/fees': typeof AuthenticatedFeesRoute
+  '/_authenticated/team': typeof AuthenticatedTeamRoute
   '/_authenticated/training-logs': typeof AuthenticatedTrainingLogsRoute
 }
 export interface FileRouteTypes {
@@ -193,10 +184,9 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/admin'
-    | '/dashboard'
     | '/events'
     | '/fees'
+    | '/team'
     | '/training-logs'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -212,10 +202,9 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/admin'
-    | '/dashboard'
     | '/events'
     | '/fees'
+    | '/team'
     | '/training-logs'
   id:
     | '__root__'
@@ -232,10 +221,9 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
-    | '/_authenticated/admin'
-    | '/_authenticated/dashboard'
     | '/_authenticated/events'
     | '/_authenticated/fees'
+    | '/_authenticated/team'
     | '/_authenticated/training-logs'
   fileRoutesById: FileRoutesById
 }
@@ -348,20 +336,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/dashboard': {
-      id: '/_authenticated/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/events': {
       id: '/_authenticated/events'
       path: '/events'
@@ -376,6 +350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFeesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/team': {
+      id: '/_authenticated/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AuthenticatedTeamRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/training-logs': {
       id: '/_authenticated/training-logs'
       path: '/training-logs'
@@ -387,18 +368,16 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
-  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
   AuthenticatedFeesRoute: typeof AuthenticatedFeesRoute
+  AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
   AuthenticatedTrainingLogsRoute: typeof AuthenticatedTrainingLogsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
-  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
   AuthenticatedFeesRoute: AuthenticatedFeesRoute,
+  AuthenticatedTeamRoute: AuthenticatedTeamRoute,
   AuthenticatedTrainingLogsRoute: AuthenticatedTrainingLogsRoute,
 }
 

@@ -29,7 +29,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/team")({
   head: () => ({
     meta: [
       { title: "Admin Panel | BPMF" },
