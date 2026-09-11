@@ -28,12 +28,16 @@ const memberNav: NavItem[] = [
 ];
 
 export function SiteHeader() {
-  const { user, isPaidMember, isAdmin } = useAuth();
+  const { user, isPaidMember, isApproved, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const items = [...publicNav, ...(isPaidMember ? memberNav : [])];
+  const items = [
+    ...publicNav,
+    ...(isPaidMember ? memberNav : []),
+    ...(isApproved ? [{ label: "My Certificate", to: "/certificate" }] : []),
+  ];
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -55,15 +59,10 @@ export function SiteHeader() {
           <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <>
-                <Button asChild variant="outline" size="sm">
-                  <Link to="/dashboard">
-                    <LayoutDashboard /> My Portal
-                  </Link>
-                </Button>
                 {isAdmin && (
                   <Button asChild variant="secondary" size="sm">
-                    <Link to="/admin">
-                      <ShieldCheck /> Admin
+                    <Link to="/team">
+                      <ShieldCheck /> Team console
                     </Link>
                   </Button>
                 )}
@@ -73,6 +72,11 @@ export function SiteHeader() {
               </>
             ) : (
               <>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/team-login">
+                    <ShieldCheck /> Team login
+                  </Link>
+                </Button>
                 <Button asChild variant="ghost" size="sm">
                   <Link to="/auth">Sign in</Link>
                 </Button>
