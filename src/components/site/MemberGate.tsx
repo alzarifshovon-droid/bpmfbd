@@ -40,7 +40,7 @@ export function MemberGate({ children }: { children: ReactNode }) {
               <Link to="/fees">Go to fees & payment</Link>
             </Button>
             <Button asChild variant="outline">
-              <Link to="/dashboard">Back to my portal</Link>
+              <Link to="/">Back to home</Link>
             </Button>
           </div>
         </CardContent>

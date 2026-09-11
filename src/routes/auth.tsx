@@ -39,7 +39,7 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (session) navigate({ to: "/dashboard", replace: true });
+    if (session) navigate({ to: "/", replace: true });
   }, [session, navigate]);
 
   async function signIn(e: React.FormEvent) {
@@ -57,7 +57,7 @@ function AuthPage() {
       return;
     }
     toast.success("Welcome back!");
-    navigate({ to: "/dashboard" });
+    navigate({ to: "/" });
   }
 
   async function google() {
@@ -69,7 +69,7 @@ function AuthPage() {
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/dashboard" });
+    navigate({ to: "/" });
   }
 
   async function resetPassword() {

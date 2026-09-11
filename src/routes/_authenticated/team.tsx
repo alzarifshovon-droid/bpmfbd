@@ -58,7 +58,7 @@ function AdminPage() {
               You do not have permission to view this page.
             </p>
             <Button asChild className="mt-6">
-              <Link to="/dashboard">Back to my portal</Link>
+              <Link to="/">Back to home</Link>
             </Button>
           </CardContent>
         </Card>
