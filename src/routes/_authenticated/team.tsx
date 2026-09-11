@@ -57,7 +57,7 @@ function AdminPage() {
         <Card className="mx-auto max-w-xl border-destructive/30 shadow-lift">
           <CardContent className="pt-8 text-center">
             <ShieldCheck className="mx-auto size-12 text-destructive" />
-            <h1 className="mt-4 text-xl font-bold">Administrators only</h1>
+            <h1 className="mt-4 text-xl font-bold">Team members only</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               You do not have permission to view this page.
             </p>
@@ -72,12 +72,19 @@ function AdminPage() {
 
   return (
     <>
-      <PageHero eyebrow="Administration" title="Admin Panel" subtitle="Manage members, fees, training logs, events, gallery and job postings." />
+      <PageHero
+        eyebrow="Team console"
+        title="Team Console"
+        subtitle="Manage the home page, gallery, quiz, memberships, fees, training logs, events and job postings."
+      />
       <section className="container-page py-10">
         <Tabs defaultValue="members">
           <TabsList className="flex-wrap">
             <TabsTrigger value="members">Members</TabsTrigger>
             <TabsTrigger value="fees">Fees</TabsTrigger>
+            <TabsTrigger value="homepage">Home page</TabsTrigger>
+            <TabsTrigger value="quiz">Quiz</TabsTrigger>
+            <TabsTrigger value="locks">Quiz resets</TabsTrigger>
             <TabsTrigger value="training">Training Logs</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="gallery">Gallery</TabsTrigger>
@@ -88,6 +95,15 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="fees">
             <FeesTab />
+          </TabsContent>
+          <TabsContent value="homepage">
+            <HomePageTab />
+          </TabsContent>
+          <TabsContent value="quiz">
+            <QuizTab />
+          </TabsContent>
+          <TabsContent value="locks">
+            <QuizLocksTab />
           </TabsContent>
           <TabsContent value="training">
             <ContentTab
