@@ -18,6 +18,9 @@ export type Profile = {
   location: string | null;
   reporting_manager_code: string | null;
   photo_url: string | null;
+  date_of_birth: string | null;
+  certificate_no: string | null;
+  certificate_issued_at: string | null;
   status: "pending" | "active" | "rejected";
   is_paid: boolean;
   created_at: string;

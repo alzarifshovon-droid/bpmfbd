@@ -95,7 +95,7 @@ function Register() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: `${window.location.origin}/dashboard`, data: meta },
+      options: { emailRedirectTo: `${window.location.origin}/`, data: meta },
     });
     setBusy(false);
     if (error) {
@@ -104,7 +104,7 @@ function Register() {
     }
     if (data.session) {
       toast.success("Application submitted");
-      navigate({ to: "/dashboard" });
+      navigate({ to: "/" });
       return;
     }
     setDone(true);

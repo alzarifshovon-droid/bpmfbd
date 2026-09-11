@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ShieldCheck, Trash2, Check } from "lucide-react";
+import { ShieldCheck, Trash2, Check, RotateCcw } from "lucide-react";
 import { PageHero } from "@/components/site/PageHero";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,8 +32,12 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/team")({
   head: () => ({
     meta: [
-      { title: "Admin Panel | BPMF" },
-      { name: "description", content: "BPMF administration: members, fees, training logs, events, gallery and jobs." },
+      { title: "Team Console | BPMF" },
+      {
+        name: "description",
+        content:
+          "BPMF team console: home page hero, gallery, quiz questions, quiz resets, members, fees, training logs, events and jobs.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -53,12 +57,12 @@ function AdminPage() {
         <Card className="mx-auto max-w-xl border-destructive/30 shadow-lift">
           <CardContent className="pt-8 text-center">
             <ShieldCheck className="mx-auto size-12 text-destructive" />
-            <h1 className="mt-4 text-xl font-bold">Administrators only</h1>
+            <h1 className="mt-4 text-xl font-bold">Team members only</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               You do not have permission to view this page.
             </p>
             <Button asChild className="mt-6">
-              <Link to="/dashboard">Back to my portal</Link>
+              <Link to="/">Back to home</Link>
             </Button>
           </CardContent>
         </Card>
@@ -68,12 +72,19 @@ function AdminPage() {
 
   return (
     <>
-      <PageHero eyebrow="Administration" title="Admin Panel" subtitle="Manage members, fees, training logs, events, gallery and job postings." />
+      <PageHero
+        eyebrow="Team console"
+        title="Team Console"
+        subtitle="Manage the home page, gallery, quiz, memberships, fees, training logs, events and job postings."
+      />
       <section className="container-page py-10">
         <Tabs defaultValue="members">
           <TabsList className="flex-wrap">
             <TabsTrigger value="members">Members</TabsTrigger>
             <TabsTrigger value="fees">Fees</TabsTrigger>
+            <TabsTrigger value="homepage">Home page</TabsTrigger>
+            <TabsTrigger value="quiz">Quiz</TabsTrigger>
+            <TabsTrigger value="locks">Quiz resets</TabsTrigger>
             <TabsTrigger value="training">Training Logs</TabsTrigger>
             <TabsTrigger value="events">Events</TabsTrigger>
             <TabsTrigger value="gallery">Gallery</TabsTrigger>
@@ -84,6 +95,15 @@ function AdminPage() {
           </TabsContent>
           <TabsContent value="fees">
             <FeesTab />
+          </TabsContent>
+          <TabsContent value="homepage">
+            <HomePageTab />
+          </TabsContent>
+          <TabsContent value="quiz">
+            <QuizTab />
+          </TabsContent>
+          <TabsContent value="locks">
+            <QuizLocksTab />
           </TabsContent>
           <TabsContent value="training">
             <ContentTab
@@ -549,5 +569,357 @@ function ContentTab({
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+/* --------------------------------- Home page -------------------------------- */
+
+const settingKeys: { key: string; label: string; textarea?: boolean }[] = [
+  { key: "hero_image_url", label: "Hero image URL" },
+  { key: "hero_title", label: "Hero headline" },
+  { key: "hero_subtitle", label: "Hero paragraph", textarea: true },
+];
+
+function HomePageTab() {
+  const qc = useQueryClient();
+  const [draft, setDraft] = useState<Record<string, string> | null>(null);
+
+  const settings = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("key,value");
+      if (error) throw error;
+      const map: Record<string, string> = {};
+      for (const row of data ?? []) map[row.key] = row.value;
+      return map;
+    },
+  });
+
+  const values = draft ?? settings.data ?? {};
+
+  const save = useMutation({
+    mutationFn: async () => {
+      const rows = settingKeys.map((s) => ({ key: s.key, value: values[s.key] ?? "" }));
+      const { error } = await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Home page updated");
+      setDraft(null);
+      qc.invalidateQueries({ queryKey: ["site-settings"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <Card className="shadow-card">
+      <CardContent className="pt-6">
+        <h2 className="text-lg font-bold">Home page hero</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Paste any public image link. Leave the image blank to keep the default photo.
+        </p>
+        <form
+          className="mt-5 max-w-2xl space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            save.mutate();
+          }}
+        >
+          {settingKeys.map((s) => (
+            <div key={s.key} className="space-y-2">
+              <Label>{s.label}</Label>
+              {s.textarea ? (
+                <Textarea
+                  value={values[s.key] ?? ""}
+                  onChange={(e) => setDraft({ ...values, [s.key]: e.target.value })}
+                />
+              ) : (
+                <Input
+                  value={values[s.key] ?? ""}
+                  onChange={(e) => setDraft({ ...values, [s.key]: e.target.value })}
+                />
+              )}
+            </div>
+          ))}
+          {values["hero_image_url"] && (
+            <img
+              src={values["hero_image_url"]}
+              alt="Hero preview"
+              className="h-40 w-full rounded-lg object-cover"
+            />
+          )}
+          <Button type="submit" disabled={save.isPending}>
+            Save home page
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
+/* ----------------------------------- Quiz ----------------------------------- */
+
+type QuizRow = {
+  id: string;
+  question: string;
+  options: string[];
+  answer_index: number;
+  explanation: string | null;
+  sort_order: number;
+};
+
+const emptyQuiz = { question: "", a: "", b: "", c: "", d: "", answer: "0", explanation: "" };
+
+function QuizTab() {
+  const qc = useQueryClient();
+  const [form, setForm] = useState(emptyQuiz);
+
+  const rows = useQuery({
+    queryKey: ["team-quiz"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("quiz_questions")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as QuizRow[];
+    },
+  });
+
+  const create = useMutation({
+    mutationFn: async () => {
+      const options = [form.a, form.b, form.c, form.d].map((o) => o.trim()).filter(Boolean);
+      if (!form.question.trim()) throw new Error("Enter the question");
+      if (options.length < 2) throw new Error("Enter at least two answer options");
+      const answer = Number(form.answer);
+      if (answer >= options.length) throw new Error("The correct answer must be one of the options");
+      const { error } = await supabase.from("quiz_questions").insert({
+        question: form.question.trim(),
+        options,
+        answer_index: answer,
+        explanation: form.explanation.trim() || null,
+        sort_order: (rows.data?.length ?? 0) + 1,
+      });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Question added");
+      setForm(emptyQuiz);
+      qc.invalidateQueries({ queryKey: ["team-quiz"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const remove = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("quiz_questions").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Question removed");
+      qc.invalidateQueries({ queryKey: ["team-quiz"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const setAnswer = useMutation({
+    mutationFn: async ({ id, answer_index }: { id: string; answer_index: number }) => {
+      const { error } = await supabase
+        .from("quiz_questions")
+        .update({ answer_index })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Correct answer updated");
+      qc.invalidateQueries({ queryKey: ["team-quiz"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-3">
+      <Card className="shadow-card lg:col-span-2">
+        <CardContent className="pt-6">
+          <h2 className="text-lg font-bold">Quiz questions</h2>
+          <ul className="mt-4 space-y-4">
+            {(rows.data ?? []).map((q) => (
+              <li key={q.id} className="rounded-lg border p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="text-sm font-medium">{q.question}</p>
+                  <Button size="sm" variant="outline" onClick={() => remove.mutate(q.id)}>
+                    <Trash2 />
+                  </Button>
+                </div>
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  {q.options.map((o, i) => (
+                    <Button
+                      key={o}
+                      size="sm"
+                      variant={i === q.answer_index ? "default" : "outline"}
+                      onClick={() => setAnswer.mutate({ id: q.id, answer_index: i })}
+                    >
+                      {o}
+                    </Button>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Tap an option to mark it as the correct answer.
+                </p>
+              </li>
+            ))}
+            {rows.isSuccess && (rows.data ?? []).length === 0 && (
+              <p className="py-6 text-center text-sm text-muted-foreground">No questions yet.</p>
+            )}
+          </ul>
+        </CardContent>
+      </Card>
+
+      <Card className="h-fit shadow-card">
+        <CardContent className="pt-6">
+          <h2 className="text-lg font-bold">Add question</h2>
+          <form
+            className="mt-4 space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              create.mutate();
+            }}
+          >
+            <div className="space-y-2">
+              <Label>Question</Label>
+              <Textarea
+                value={form.question}
+                onChange={(e) => setForm((f) => ({ ...f, question: e.target.value }))}
+              />
+            </div>
+            {(["a", "b", "c", "d"] as const).map((k, i) => (
+              <div key={k} className="space-y-2">
+                <Label>Option {i + 1}</Label>
+                <Input
+                  value={form[k]}
+                  onChange={(e) => setForm((f) => ({ ...f, [k]: e.target.value }))}
+                />
+              </div>
+            ))}
+            <div className="space-y-2">
+              <Label>Correct option</Label>
+              <Select value={form.answer} onValueChange={(v) => setForm((f) => ({ ...f, answer: v }))}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {["1", "2", "3", "4"].map((n, i) => (
+                    <SelectItem key={n} value={String(i)}>
+                      Option {n}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Explanation</Label>
+              <Textarea
+                value={form.explanation}
+                onChange={(e) => setForm((f) => ({ ...f, explanation: e.target.value }))}
+              />
+            </div>
+            <Button type="submit" className="w-full" disabled={create.isPending}>
+              Add question
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+/* -------------------------------- Quiz resets ------------------------------- */
+
+function QuizLocksTab() {
+  const qc = useQueryClient();
+
+  const locks = useQuery({
+    queryKey: ["team-quiz-locks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("quiz_locks")
+        .select("user_id,wrong_count,locked_at")
+        .order("locked_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const people = useQuery({
+    queryKey: ["admin-members-lite"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("profiles").select("id,full_name,email");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const reset = useMutation({
+    mutationFn: async (userId: string) => {
+      const { error } = await supabase.rpc("reset_quiz_lock", { _user_id: userId });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Quiz reset — the player can start again");
+      qc.invalidateQueries({ queryKey: ["team-quiz-locks"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const nameOf = (id: string) => {
+    const p = (people.data ?? []).find((x) => x.id === id);
+    return p ? p.full_name || p.email : id;
+  };
+
+  return (
+    <Card className="shadow-card">
+      <CardContent className="pt-6">
+        <h2 className="text-lg font-bold">Locked quiz players</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          A player who answers a question wrongly is locked out until you reset them here.
+        </p>
+        <div className="mt-5 overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Player</TableHead>
+                <TableHead>Wrong answers</TableHead>
+                <TableHead>Locked at</TableHead>
+                <TableHead className="text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {(locks.data ?? []).map((l) => (
+                <TableRow key={l.user_id}>
+                  <TableCell className="font-medium">{nameOf(l.user_id)}</TableCell>
+                  <TableCell>{l.wrong_count}</TableCell>
+                  <TableCell>
+                    {new Date(l.locked_at).toLocaleString("en-GB", {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button size="sm" onClick={() => reset.mutate(l.user_id)}>
+                      <RotateCcw /> Reset quiz
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {locks.isSuccess && (locks.data ?? []).length === 0 && (
+            <p className="py-6 text-center text-sm text-muted-foreground">
+              Nobody is locked out right now.
+            </p>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

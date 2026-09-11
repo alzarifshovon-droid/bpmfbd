@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Menu, X, Search, LogOut, LayoutDashboard, ShieldCheck } from "lucide-react";
+import { Menu, X, Search, LogOut, ShieldCheck } from "lucide-react";
 import logoAsset from "@/assets/bpmf-logo-new.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -28,12 +28,16 @@ const memberNav: NavItem[] = [
 ];
 
 export function SiteHeader() {
-  const { user, isPaidMember, isAdmin } = useAuth();
+  const { user, isPaidMember, isApproved, isAdmin } = useAuth();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const items = [...publicNav, ...(isPaidMember ? memberNav : [])];
+  const items = [
+    ...publicNav,
+    ...(isPaidMember ? memberNav : []),
+    ...(isApproved ? [{ label: "My Certificate", to: "/certificate" }] : []),
+  ];
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -55,15 +59,10 @@ export function SiteHeader() {
           <div className="hidden items-center gap-2 md:flex">
             {user ? (
               <>
-                <Button asChild variant="outline" size="sm">
-                  <Link to="/dashboard">
-                    <LayoutDashboard /> My Portal
-                  </Link>
-                </Button>
                 {isAdmin && (
                   <Button asChild variant="secondary" size="sm">
-                    <Link to="/admin">
-                      <ShieldCheck /> Admin
+                    <Link to="/team">
+                      <ShieldCheck /> Team console
                     </Link>
                   </Button>
                 )}
@@ -73,6 +72,11 @@ export function SiteHeader() {
               </>
             ) : (
               <>
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/team-login">
+                    <ShieldCheck /> Team login
+                  </Link>
+                </Button>
                 <Button asChild variant="ghost" size="sm">
                   <Link to="/auth">Sign in</Link>
                 </Button>
@@ -133,15 +137,10 @@ export function SiteHeader() {
             <li className="flex flex-wrap gap-2 pt-3">
               {user ? (
                 <>
-                  <Button asChild size="sm" variant="secondary">
-                    <Link to="/dashboard" onClick={() => setOpen(false)}>
-                      My Portal
-                    </Link>
-                  </Button>
                   {isAdmin && (
                     <Button asChild size="sm" variant="secondary">
-                      <Link to="/admin" onClick={() => setOpen(false)}>
-                        Admin
+                      <Link to="/team" onClick={() => setOpen(false)}>
+                        Team console
                       </Link>
                     </Button>
                   )}
@@ -159,6 +158,11 @@ export function SiteHeader() {
                   <Button asChild size="sm" variant="secondary">
                     <Link to="/register" onClick={() => setOpen(false)}>
                       Apply for membership
+                    </Link>
+                  </Button>
+                  <Button asChild size="sm" variant="secondary">
+                    <Link to="/team-login" onClick={() => setOpen(false)}>
+                      Team login
                     </Link>
                   </Button>
                 </>
