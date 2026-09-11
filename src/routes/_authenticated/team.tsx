@@ -32,8 +32,12 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/_authenticated/team")({
   head: () => ({
     meta: [
-      { title: "Admin Panel | BPMF" },
-      { name: "description", content: "BPMF administration: members, fees, training logs, events, gallery and jobs." },
+      { title: "Team Console | BPMF" },
+      {
+        name: "description",
+        content:
+          "BPMF team console: home page hero, gallery, quiz questions, quiz resets, members, fees, training logs, events and jobs.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
