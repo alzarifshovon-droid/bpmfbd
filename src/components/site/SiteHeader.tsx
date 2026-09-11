@@ -137,15 +137,10 @@ export function SiteHeader() {
             <li className="flex flex-wrap gap-2 pt-3">
               {user ? (
                 <>
-                  <Button asChild size="sm" variant="secondary">
-                    <Link to="/dashboard" onClick={() => setOpen(false)}>
-                      My Portal
-                    </Link>
-                  </Button>
                   {isAdmin && (
                     <Button asChild size="sm" variant="secondary">
-                      <Link to="/admin" onClick={() => setOpen(false)}>
-                        Admin
+                      <Link to="/team" onClick={() => setOpen(false)}>
+                        Team console
                       </Link>
                     </Button>
                   )}
@@ -163,6 +158,11 @@ export function SiteHeader() {
                   <Button asChild size="sm" variant="secondary">
                     <Link to="/register" onClick={() => setOpen(false)}>
                       Apply for membership
+                    </Link>
+                  </Button>
+                  <Button asChild size="sm" variant="secondary">
+                    <Link to="/team-login" onClick={() => setOpen(false)}>
+                      Team login
                     </Link>
                   </Button>
                 </>
