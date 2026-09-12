@@ -188,7 +188,11 @@ function MembersTab() {
       patch,
     }: {
       id: string;
-      patch: { status?: "pending" | "active" | "rejected"; is_paid?: boolean };
+      patch: {
+        status?: "pending" | "active" | "rejected";
+        is_paid?: boolean;
+        date_of_birth?: string | null;
+      };
     }) => {
       const { error } = await supabase.from("profiles").update(patch).eq("id", id);
       if (error) throw error;
@@ -210,8 +214,9 @@ function MembersTab() {
                 <TableHead>Name</TableHead>
                 <TableHead>Employee code</TableHead>
                 <TableHead>Organisation</TableHead>
+                <TableHead>Date of birth</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Paid</TableHead>
+                <TableHead>Certificate</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -224,6 +229,19 @@ function MembersTab() {
                   </TableCell>
                   <TableCell>{m.employee_code ?? "—"}</TableCell>
                   <TableCell className="max-w-48 truncate">{m.organization ?? "—"}</TableCell>
+                  <TableCell>
+                    <Input
+                      type="date"
+                      className="w-40"
+                      defaultValue={m.date_of_birth ?? ""}
+                      onBlur={(e) =>
+                        update.mutate({
+                          id: m.id,
+                          patch: { date_of_birth: e.target.value || null },
+                        })
+                      }
+                    />
+                  </TableCell>
                   <TableCell>
                     <Select
                       value={m.status}
@@ -242,6 +260,7 @@ function MembersTab() {
                     </Select>
                   </TableCell>
                   <TableCell>
+                    <div className="text-xs">{m.certificate_no ?? "—"}</div>
                     <Badge variant={m.is_paid ? "default" : "outline"}>
                       {m.is_paid ? "Paid" : "Unpaid"}
                     </Badge>
