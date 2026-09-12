@@ -62,6 +62,24 @@ const focusAreas = [
 function Home() {
   const { isPaidMember } = useAuth();
 
+  const settings = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("key,value");
+      if (error) throw error;
+      const map: Record<string, string> = {};
+      for (const row of data ?? []) map[row.key] = row.value;
+      return map;
+    },
+  });
+
+  const heroImage = settings.data?.["hero_image_url"]?.trim() || heroLab;
+  const heroTitle =
+    settings.data?.["hero_title"]?.trim() || "Advancing pharmaceutical microbiology across Bangladesh";
+  const heroSubtitle =
+    settings.data?.["hero_subtitle"]?.trim() ||
+    "BPMF is a professional foundation of quality-control and quality-assurance microbiologists. We share knowledge, run structured training programmes and open career doors for the next generation of sterility assurance professionals.";
+
   const gallery = useQuery({
     queryKey: ["gallery", "home"],
     queryFn: async () => {
