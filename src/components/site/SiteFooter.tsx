@@ -55,6 +55,11 @@ export function SiteFooter() {
                 Apply for membership
               </Link>
             </li>
+            <li>
+              <Link to="/team-login" className="hover:text-primary">
+                Team login
+              </Link>
+            </li>
           </ul>
         </div>
 

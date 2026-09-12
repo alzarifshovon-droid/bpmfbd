@@ -46,6 +46,7 @@ const schema = z.object({
     .trim()
     .regex(/^[0-9+\-\s]{6,20}$/, "Enter a valid mobile number"),
   blood_group: z.string().trim().max(10).optional(),
+  date_of_birth: z.string().trim().min(1, "Enter your date of birth"),
   organization: z.string().trim().min(2, "Enter your company name").max(150),
   department: z.string().trim().max(100).optional(),
   designation: z.string().trim().max(100).optional(),
@@ -64,6 +65,7 @@ const emptyForm = {
   employee_code: "",
   mobile_no: "",
   blood_group: "",
+  date_of_birth: "",
   organization: "",
   department: "",
   designation: "",
@@ -194,6 +196,13 @@ function Register() {
                     ))}
                   </SelectContent>
                 </Select>
+              </Field>
+              <Field label="Date of birth" required>
+                <Input
+                  type="date"
+                  value={form.date_of_birth}
+                  onChange={(e) => set("date_of_birth", e.target.value)}
+                />
               </Field>
               <Field label="Company / organisation" required>
                 <Input

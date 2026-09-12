@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import heroLab from "@/assets/hero-lab.jpg";
+import { BirthdayBanner } from "@/components/site/BirthdayBanner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
@@ -62,6 +63,24 @@ const focusAreas = [
 function Home() {
   const { isPaidMember } = useAuth();
 
+  const settings = useQuery({
+    queryKey: ["site-settings"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_settings").select("key,value");
+      if (error) throw error;
+      const map: Record<string, string> = {};
+      for (const row of data ?? []) map[row.key] = row.value;
+      return map;
+    },
+  });
+
+  const heroImage = settings.data?.["hero_image_url"]?.trim() || heroLab;
+  const heroTitle =
+    settings.data?.["hero_title"]?.trim() || "Advancing pharmaceutical microbiology across Bangladesh";
+  const heroSubtitle =
+    settings.data?.["hero_subtitle"]?.trim() ||
+    "BPMF is a professional foundation of quality-control and quality-assurance microbiologists. We share knowledge, run structured training programmes and open career doors for the next generation of sterility assurance professionals.";
+
   const gallery = useQuery({
     queryKey: ["gallery", "home"],
     queryFn: async () => {
@@ -90,9 +109,10 @@ function Home() {
 
   return (
     <>
+      <BirthdayBanner />
       <section className="relative isolate overflow-hidden bg-ink">
         <img
-          src={heroLab}
+          src={heroImage}
           alt="Microbiologists inspecting culture plates in a pharmaceutical QC laboratory"
           width={1920}
           height={1088}
@@ -103,13 +123,9 @@ function Home() {
             Established 2024 · Dhaka, Bangladesh
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl leading-tight font-extrabold text-ink-foreground sm:text-5xl">
-            Advancing pharmaceutical microbiology across Bangladesh
+            {heroTitle}
           </h1>
-          <p className="mt-5 max-w-2xl text-base text-ink-foreground/85">
-            BPMF is a professional foundation of quality-control and quality-assurance
-            microbiologists. We share knowledge, run structured training programmes and open career
-            doors for the next generation of sterility assurance professionals.
-          </p>
+          <p className="mt-5 max-w-2xl text-base text-ink-foreground/85">{heroSubtitle}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
               <Link to="/register">
