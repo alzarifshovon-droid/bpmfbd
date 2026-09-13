@@ -22,6 +22,7 @@ type JobRow = {
 };
 
 export const Route = createFileRoute("/jobs")({
+  staticData: { sitemap: true },
   loader: async () => {
     const { data } = await supabase
       .from("jobs")

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/pathological-tests")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Pathological Test Information | BPMF" },

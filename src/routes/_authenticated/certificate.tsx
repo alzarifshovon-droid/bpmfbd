@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/certificate")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Membership Certificate | BPMF" },

@@ -11,6 +11,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { useSession } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/auth")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Member Sign In | BPMF" },

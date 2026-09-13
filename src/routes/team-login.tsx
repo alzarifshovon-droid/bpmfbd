@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/team-login")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Team Login | BPMF Management Console" },

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/events")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Events | BPMF Members" },

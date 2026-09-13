@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/training-logs")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Training Logs | BPMF Members" },

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/medicine-information")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Medicine Information | BPMF" },
