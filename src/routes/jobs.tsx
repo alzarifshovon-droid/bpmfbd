@@ -74,7 +74,9 @@ export const Route = createFileRoute("/jobs")({
 
 function Jobs() {
   const [q, setQ] = useState("");
+  const initial = Route.useLoaderData();
   const jobs = useQuery({
+    initialData: initial.jobs,
     queryKey: ["jobs"],
     queryFn: async () => {
       const { data, error } = await supabase
