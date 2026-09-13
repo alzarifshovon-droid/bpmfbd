@@ -29,7 +29,7 @@ export function MemberGate({ children }: { children: ReactNode }) {
           <span className="mx-auto inline-flex size-12 items-center justify-center rounded-full bg-primary-soft text-primary">
             <Lock className="size-5" />
           </span>
-          <h1 className="mt-4 text-xl font-bold">Members-only section</h1>
+          <h2 className="mt-4 text-xl font-bold">Members-only section</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {pending
               ? "Your membership is registered but the annual fee is not verified yet. Submit your payment reference in the Fees tab and this section will open as soon as the treasurer confirms it."

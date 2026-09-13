@@ -64,6 +64,7 @@ function Jobs() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search openings"
+            aria-label="Search job openings"
             className="pl-9"
           />
         </div>

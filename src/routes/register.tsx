@@ -302,13 +302,17 @@ function Field({
   required?: boolean;
   children: React.ReactNode;
 }) {
+  const id = React.useId();
+  const control = React.isValidElement(children)
+    ? React.cloneElement(children as React.ReactElement<{ id?: string }>, { id })
+    : children;
   return (
     <div className="space-y-2">
-      <Label>
+      <Label htmlFor={id}>
         {label}
         {required && <span className="text-primary"> *</span>}
       </Label>
-      {children}
+      {control}
     </div>
   );
 }
