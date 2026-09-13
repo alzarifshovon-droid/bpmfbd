@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import * as React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -185,7 +186,7 @@ function Register() {
                   value={form.blood_group}
                   onValueChange={(v) => set("blood_group", v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Blood group">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
