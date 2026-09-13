@@ -9,8 +9,52 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 
+type JobRow = {
+  id: string;
+  title: string;
+  company: string | null;
+  location: string | null;
+  job_type: string | null;
+  description: string | null;
+  deadline: string | null;
+  apply_url: string | null;
+  created_at: string;
+};
+
 export const Route = createFileRoute("/jobs")({
-  head: () => ({
+  loader: async () => {
+    const { data } = await supabase
+      .from("jobs")
+      .select("*")
+      .order("created_at", { ascending: false });
+    return { jobs: (data ?? []) as JobRow[] };
+  },
+  head: ({ loaderData }) => ({
+    scripts: (loaderData?.jobs ?? []).slice(0, 20).map((j) => ({
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "JobPosting",
+        title: j.title,
+        description: j.description ?? j.title,
+        datePosted: j.created_at,
+        ...(j.deadline ? { validThrough: j.deadline } : {}),
+        ...(j.job_type ? { employmentType: j.job_type } : {}),
+        hiringOrganization: {
+          "@type": "Organization",
+          name: j.company ?? "Bangladesh Pharma Microbiologists Foundation",
+        },
+        jobLocation: {
+          "@type": "Place",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: j.location ?? "Dhaka",
+            addressCountry: "BD",
+          },
+        },
+        ...(j.apply_url ? { url: j.apply_url } : {}),
+      }),
+    })),
     meta: [
       { title: "Job Corner | BPMF" },
       {
