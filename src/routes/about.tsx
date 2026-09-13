@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PageHero } from "@/components/site/PageHero";
 
 export const Route = createFileRoute("/about")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "About Us | Bangladesh Pharma Microbiologists Foundation" },

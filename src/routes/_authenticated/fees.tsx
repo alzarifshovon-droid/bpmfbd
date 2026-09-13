@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/fees")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Membership Fees | BPMF Members" },

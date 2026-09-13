@@ -19,6 +19,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/register")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Apply for Membership | BPMF" },

@@ -22,6 +22,7 @@ import { Route as PathologicalTestsRouteImport } from './routes/pathological-tes
 import { Route as QuizGamesRouteImport } from './routes/quiz-games'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TeamLoginRouteImport } from './routes/team-login'
 import { Route as AuthenticatedCertificateRouteImport } from './routes/_authenticated/certificate'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
@@ -93,6 +94,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamLoginRoute = TeamLoginRouteImport.update({
   id: '/team-login',
   path: '/team-login',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-login': typeof TeamLoginRoute
   '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-login': typeof TeamLoginRoute
   '/certificate': typeof AuthenticatedCertificateRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/quiz-games': typeof QuizGamesRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/team-login': typeof TeamLoginRoute
   '/_authenticated/certificate': typeof AuthenticatedCertificateRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/team-login'
     | '/certificate'
     | '/events'
@@ -223,6 +233,7 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/team-login'
     | '/certificate'
     | '/events'
@@ -244,6 +255,7 @@ export interface FileRouteTypes {
     | '/quiz-games'
     | '/register'
     | '/reset-password'
+    | '/sitemap.xml'
     | '/team-login'
     | '/_authenticated/certificate'
     | '/_authenticated/events'
@@ -266,6 +278,7 @@ export interface RootRouteChildren {
   QuizGamesRoute: typeof QuizGamesRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TeamLoginRoute: typeof TeamLoginRoute
 }
 
@@ -362,6 +375,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team-login': {
       id: '/team-login'
       path: '/team-login'
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuizGamesRoute: QuizGamesRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TeamLoginRoute: TeamLoginRoute,
 }
 export const routeTree = rootRouteImport

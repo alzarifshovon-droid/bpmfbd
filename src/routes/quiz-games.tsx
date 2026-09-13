@@ -11,6 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/quiz-games")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Quiz Games | Pharma Microbiology Challenge — BPMF" },
