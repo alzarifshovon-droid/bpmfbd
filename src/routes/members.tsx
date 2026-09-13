@@ -93,6 +93,7 @@ function Members() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Search by name, company or role"
+                aria-label="Search members by name, company or role"
                 className="pl-9"
               />
             </div>

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import * as React from "react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -185,7 +186,7 @@ function Register() {
                   value={form.blood_group}
                   onValueChange={(v) => set("blood_group", v)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Blood group">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent>
@@ -302,13 +303,17 @@ function Field({
   required?: boolean;
   children: React.ReactNode;
 }) {
+  const id = React.useId();
+  const control = React.isValidElement(children)
+    ? React.cloneElement(children as React.ReactElement<{ id?: string }>, { id })
+    : children;
   return (
     <div className="space-y-2">
-      <Label>
+      <Label htmlFor={id}>
         {label}
         {required && <span className="text-primary"> *</span>}
       </Label>
-      {children}
+      {control}
     </div>
   );
 }
