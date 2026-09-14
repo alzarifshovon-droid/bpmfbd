@@ -21,17 +21,45 @@ export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
   head: () => ({
     meta: [
-      { title: "Bangladesh Pharma Microbiologists Foundation | BPMF" },
+      { title: "BPMFBD – Bangladesh Pharma Microbiologists Foundation" },
       {
         name: "description",
         content:
-          "BPMF unites pharmaceutical microbiologists of Bangladesh through training logs, scientific events, a job corner and a members-only portal.",
+          "BPMFBD (Bangladesh Pharma Microbiologists Foundation) unites pharmaceutical microbiologists of Bangladesh through training logs, scientific events, a job corner and a members-only portal.",
       },
-      { property: "og:title", content: "Bangladesh Pharma Microbiologists Foundation" },
+      { property: "og:title", content: "BPMFBD – Bangladesh Pharma Microbiologists Foundation" },
       {
         property: "og:description",
         content:
           "Training, events, job corner and membership for pharmaceutical microbiologists of Bangladesh.",
+      },
+      { property: "og:url", content: "https://bpmfbd.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://bpmfbd.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Bangladesh Pharma Microbiologists Foundation",
+          alternateName: ["BPMFBD", "BPMF"],
+          url: "https://bpmfbd.lovable.app/",
+          logo: "https://bpmfbd.lovable.app/favicon.png",
+          description:
+            "Professional foundation of pharmaceutical microbiologists in Bangladesh — training, events, job corner and membership.",
+          address: { "@type": "PostalAddress", addressCountry: "BD" },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "BPMFBD",
+          alternateName: "Bangladesh Pharma Microbiologists Foundation",
+          url: "https://bpmfbd.lovable.app/",
+        }),
       },
     ],
   }),
