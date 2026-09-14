@@ -83,11 +83,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "KVwUSJL_NKujtmIMWhSMzv8QY9sKgxl5aYwsxaGWmB0" },
-      { title: "Bangladesh Pharma Microbiologists Foundation" },
+      { title: "BPMFBD – Bangladesh Pharma Microbiologists Foundation" },
       {
         name: "description",
         content:
-          "Professional foundation of pharmaceutical microbiologists in Bangladesh — training, events, job corner and membership.",
+          "BPMFBD — professional foundation of pharmaceutical microbiologists in Bangladesh: training, events, job corner and membership.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
